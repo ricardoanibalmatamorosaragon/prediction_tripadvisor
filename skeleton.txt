@@ -1,0 +1,100 @@
+{	
+	"V": ["target", "clean", "value", "room", "location","check","service","business"],
+	"E": [["target", "clean"],
+		["target", "value"],
+		["target", "room"],
+		["target", "location"],
+        ["target", "check"],
+        ["target", "service"],
+        ["target", "business"]],
+    "Vdata": {
+		"target": {
+			"ord": 1,
+			"numoutcomes": 2,
+			"vals": ["good", "bad"],
+			"parents": None,
+			"children": ["clean","value","room","location","check","service","business"],
+			"cprob": {
+				"['g']": [.1, .9],
+				"['b']": [.4, .6]
+			}
+		},
+        "clean": {
+			"ord": 2,
+			"numoutcomes": 5,
+			"vals": [1, 2, 3, 4, 5],
+			"parents": ["target"],
+			"children": None,
+			"cprob": {
+				"['good']": [.2, .2, .2, .2, .2],
+				"['bad']":  [.2, .2, .2, .2, .2]
+			}
+		},
+        "value": {
+			"ord": 3,
+			"numoutcomes": 5,
+			"vals": [1, 2, 3, 4, 5],
+			"parents": ["target"],
+			"children": None,
+			"cprob": {
+				"['good']": [.2, .2, .2, .2, .2],
+				"['bad']":  [.2, .2, .2, .2, .2]
+			}
+		},
+        "room": {
+			"ord": 4,
+			"numoutcomes": 5,
+			"vals": [1, 2, 3, 4, 5],
+			"parents": ["target"],
+			"children": None,
+			"cprob": {
+				"['good']": [.2, .2, .2, .2, .2],
+				"['bad']":  [.2, .2, .2, .2, .2]
+			}
+		},
+        "location": {
+			"ord": 5,
+			"numoutcomes": 5,
+			"vals": [1, 2, 3, 4, 5],
+			"parents": ["target"],
+			"children": None,
+			"cprob": {
+				"['good']": [.2, .2, .2, .2, .2],
+				"['bad']":  [.2, .2, .2, .2, .2]
+			}
+		},
+        "check": {
+			"ord": 6,
+			"numoutcomes": 5,
+			"vals": [1, 2, 3, 4, 5],
+			"parents": ["target"],
+			"children": None,
+			"cprob": {
+				"['good']": [.2, .2, .2, .2, .2],
+				"['bad']":  [.2, .2, .2, .2, .2]
+			}
+		},
+        "service": {
+			"ord": 7,
+			"numoutcomes": 5,
+			"vals": [1, 2, 3, 4, 5],
+			"parents": ["target"],
+			"children": None,
+			"cprob": {
+				"['good']": [.2, .2, .2, .2, .2],
+				"['bad']":  [.2, .2, .2, .2, .2]
+			}
+		},
+        "business": {
+			"ord": 8,
+			"numoutcomes": 5,
+			"vals": [1, 2, 3, 4, 5],
+			"parents": ["target"],
+			"children": None,
+			"cprob": {
+				"['good']": [.2, .2, .2, .2, .2],
+				"['bad']":  [.2, .2, .2, .2, .2]
+			}
+		}
+    }
+}
