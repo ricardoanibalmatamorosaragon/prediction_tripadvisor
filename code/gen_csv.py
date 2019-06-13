@@ -21,6 +21,7 @@ def read_dat(name):
     cont=0
     rows_csv=[]
     tmp=[]
+    #overall_tmp=0
     for row in f:
         
         if re.match(reader,row)!=None:
@@ -33,6 +34,7 @@ def read_dat(name):
 
         elif re.match(overall,row)!=None:
             o=row[9:-1].split()
+            overall_tmp=int(o[0])
             tmp.append(int(o[0]))
 
         elif re.match(value,row)!=None:
@@ -58,13 +60,17 @@ def read_dat(name):
         elif re.match(services,row)!=None:
             s=row[9:-1].split()
             tmp.append(int(s[0]))
-
+            
         elif re.match(business,row)!=None:
             b=row[18:-1].split()
             tmp.append(int(b[0]))
 
         elif re.match(re_newline,row)!=None:
             if tmp!=[]:
+                if overall_tmp < 4:
+                    tmp.append('bad')
+                else:
+                    tmp.append('good')
                 rows_csv.append(tmp)
             tmp=[os.path.basename(f.name)[0:-4]]
         else:
@@ -73,7 +79,7 @@ def read_dat(name):
 
 def write_csv(data):
     
-    f= open('reviews.csv','w')
+    f= open('all_reviews.csv','w')
     for i in range(len(data)):
         tmp=''
         for j in data[i]:
