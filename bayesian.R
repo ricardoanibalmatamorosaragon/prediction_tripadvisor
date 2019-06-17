@@ -2,7 +2,8 @@ setwd("C:/Users/ricar/OneDrive/Desktop/prediction_tripadvisor")
 library(caret)
 library(bnlearn)
 library(readr)
-ult_views <- read_csv("csv/ult_views.csv")
+#ult_views <- read_csv("csv/ult_views.csv")
+ult_views <- read_csv("csv/ult_views_sentimental.csv")
 sub.dataset=subset(ult_views, select =c("value","room","location","clean","check","service","target"))
 set.seed(3033)
 intrain <- createDataPartition(y = sub.dataset$target, p= 1, list =FALSE)
@@ -40,11 +41,13 @@ check_list <- check[[1]]
 service_list <- service[[1]]
 
 lista <- vector("list", 14162)
+probs <- vector("list",14162)
 #index
 i <- 1
 for(item in clean_list){
   result <- cpquery(fittedbn, event = (target=="good"), evidence = ( value==value_list[i] & room==room_list[i] & 
     location==location_list[i] & clean ==clean_list[i] & check ==check_list[i] & service==service_list[i]) )
+  probs[[i]] <- result
   if(result < 1-result){
     lista[[i]] <- 'bad'
   }else{
@@ -55,4 +58,9 @@ for(item in clean_list){
 }
 test_evidence$target <- unlist(lista)
 test_evidence$target <- as.factor(test_evidence$target)
-write.csv(test_evidence,'./csv/views_target_r.csv',row.names = FALSE)
+
+test_evidence$probGood <- unlist(probs)
+test_evidence$probGood <- as.factor(test_evidence$probGood)
+write.csv(test_evidence,'./csv/views_target_r_sentiment.csv',row.names = FALSE)
+
+
