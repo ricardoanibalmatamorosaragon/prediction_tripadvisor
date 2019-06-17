@@ -4,6 +4,35 @@ import os, glob
 import csv
 import pandas as pd
 
+import math
+import re
+import sys
+
+# AFINN-111 is as of June 2011 the most recent version of AFINN
+filenameAFINN = 'AFINN-111.txt'
+afinn = dict(map(lambda (w, s): (w, int(s)), [ 
+            ws.strip().split('\t') for ws in open(filenameAFINN) ]))
+
+# Word splitter pattern
+pattern_split = re.compile(r"\W+")
+
+def sentiment(text):
+    """
+    Returns a float for sentiment strength based on the input text.
+    Positive values are positive valence, negative value are negative valence. 
+    """
+    words = pattern_split.split(text.lower())
+    sentiments = map(lambda word: afinn.get(word, 0), words)
+    if sentiments:
+        # How should you weight the individual word sentiments? 
+        # You could do N, sqrt(N) or 1 for example. Here I use sqrt(N)
+        sentiment = float(sum(sentiments))/math.sqrt(len(sentiments))
+        
+    else:
+        sentiment = 0
+    return sentiment
+
+text_l=[]
 def read_dat(name):
     re_newline='\s'
     reader='<No. Reader>'
@@ -16,15 +45,25 @@ def read_dat(name):
     check='<Check in / front desk>'
     services='<Service>'
     business='<Business service>'
-
+    content='<Content>'
     f=open(name,'r')
     cont=0
     rows_csv=[]
     tmp=[]
     #overall_tmp=0
+   
     for row in f:
+        if re.match(content,row)!=None:
+            b=row[9:-1]
+            b=sentiment(b)
+            if b > 1:
+                text_l.append('good')
+                
+            elif b <=1:
+                text_l.append('bad')          
         
-        if re.match(reader,row)!=None:
+
+        elif re.match(reader,row)!=None:
             r=row[12:-1].split()
             tmp.append(int(r[0]))
         
@@ -65,6 +104,7 @@ def read_dat(name):
             b=row[18:-1].split()
             tmp.append(int(b[0]))
 
+
         elif re.match(re_newline,row)!=None:
             if tmp!=[]:
                 if overall_tmp < 4:
@@ -79,18 +119,19 @@ def read_dat(name):
 
 def write_csv(data):
     
-    f= open('all_reviews.csv','w')
+    f= open('reviews_text.csv','w')
     for i in range(len(data)):
         tmp=''
         for j in data[i]:
             tmp+=str(j)+", "
         tmp=str(i)+', '+tmp[0:-2]
         f.write(tmp+'\n')
-    '''
-    with open('file_reviews.csv','wb') as f:
-        writer = csv.writer(f)
-        writer.writerows(data)
-    '''
+   
+    
+    f= open('views_test.csv','w')
+    for i in text_l:
+       f.write(i+'\n')
+   
 
 def read_all_directory(path):
     final_list=[] 
@@ -102,7 +143,10 @@ def read_all_directory(path):
      
 
 def main():
+    #training
     read_all_directory("/home/ricardo/Scrivania/Tripadvisor/Training/")
+    #testing
+    read_all_directory("/home/ricardo/Scrivania/Tripadvisor/Testing/")
 
 if __name__=="__main__":
     main()
