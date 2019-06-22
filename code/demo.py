@@ -5,13 +5,13 @@ import dash_core_components as dcc
 import dash_html_components as html
 import pandas as pd
 
-df = pd.read_csv('/home/ricardo/Scrivania/prediction_tripadvisor/csv/overall_testing_sentimental_netbayesian.csv')
+df = pd.read_csv('/home/ricardo/Scrivania/prediction_tripadvisor/csv/overall_testing_assumption_netbayesian.csv')
 
 app = dash.Dash(__name__)
 
 app.layout = html.Div([
     html.H1('RATING COMPLESSIVO'),
-    html.H3('risultati ottenuti con our net bayesian e sentimental analysis'),
+    html.H3('risultati ottenuti con our net bayesian e assunzione su overall'),
     dash_table.DataTable(
         id='datatable-interactivity',
         columns=[
