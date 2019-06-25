@@ -76,11 +76,15 @@ def read_dat(name):
     return rows_csv     
 
 def write_csv_train(data):
+    header=['hotel','reader','helpful','overall','value','room','location','clean','check','service','business','target']
+    data.insert(0,header)
     with open("./first_step_prepro/training_initial_assumption.csv","w") as f:
         writer = csv.writer(f, delimiter=";")
         writer.writerows(data)
 
 def write_csv_test(data):
+    header=['hotel','reader','helpful','overall','value','room','location','clean','check','service','business','target']
+    data.insert(0,header)
     with open("./first_step_prepro/testing_initial_assumption.csv","w") as f:
         writer = csv.writer(f, delimiter=";")
         writer.writerows(data)
@@ -96,12 +100,11 @@ def read_all_directory(path,option):
     else:
         write_csv_test(final_list)
      
-
 def main():
-    #training
-    read_all_directory("/home/ricardo/Scrivania/prediction_tripadvisor/Training/",1)
-    #testing
-    read_all_directory("/home/ricardo/Scrivania/prediction_tripadvisor/Testing/",2)
+    #training, aggiornare il path inbase a dove e' stato salvato il progetto
+    read_all_directory("/home/ricardo/Scrivania/sistemare/prediction_tripadvisor/Training/",1)
+    #testing, aggiornare il path inbase a dove e' stato salvato il progetto
+    read_all_directory("/home/ricardo/Scrivania/sistemare/prediction_tripadvisor/Testing/",2)
 
 if __name__=="__main__":
     main()

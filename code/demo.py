@@ -5,7 +5,8 @@ import dash_core_components as dcc
 import dash_html_components as html
 import pandas as pd
 
-df = pd.read_csv('/home/ricardo/Scrivania/prediction_tripadvisor/csv/overall_testing_assumption_netbayesian.csv')
+#Aggiornare il path inbase a dove e' stato salvato il progetto
+df = pd.read_csv('C:/Users/Andrea/Documents/ModelliProbabilistici/Progetto/prediction_tripadvisor/code')
 
 app = dash.Dash(__name__)
 
