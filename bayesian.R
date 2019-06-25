@@ -2,8 +2,8 @@ setwd("C:/Users/ricar/OneDrive/Desktop/prediction_tripadvisor")
 library(caret)
 library(bnlearn)
 library(readr)
-#ult_views <- read_csv("csv/ult_views.csv")
-ult_views <- read_csv("csv/ult_views_sentimental.csv")
+#ult_views <- read_csv("csv/training_assumption.csv")
+ult_views <- read_csv("csv/training_sentimental_undersampling.csv")
 sub.dataset=subset(ult_views, select =c("value","room","location","clean","check","service","target"))
 set.seed(3033)
 intrain <- createDataPartition(y = sub.dataset$target, p= 1, list =FALSE)
@@ -26,7 +26,8 @@ plot(res)
 fittedbn <- bn.fit(res, data = bn_df)
 print(fittedbn$target)
 
-test_evidence <- read_csv("csv/test_not_target.csv")
+#test_evidence <- read_csv("csv/testing_assumption.csv")
+test_evidence <- read_csv("csv/testing_sentimental.csv")
 value <- test_evidence['value']
 room <- test_evidence['room']
 location <- test_evidence['location']
@@ -59,8 +60,9 @@ for(item in clean_list){
 test_evidence$target <- unlist(lista)
 test_evidence$target <- as.factor(test_evidence$target)
 
-test_evidence$probGood <- unlist(probs)
-test_evidence$probGood <- as.factor(test_evidence$probGood)
-write.csv(test_evidence,'./csv/views_target_r_sentiment.csv',row.names = FALSE)
+test_evidence$prob <- unlist(probs)
+test_evidence$prob <- as.factor(test_evidence$prob)
+write.csv(test_evidence,'./csv/result_sentimental/testing_sentimental_r.csv',row.names = FALSE)
+#write.csv(test_evidence,'./csv/result_assumption/testing_assumption_r.csv',row.names = FALSE)
 
 
